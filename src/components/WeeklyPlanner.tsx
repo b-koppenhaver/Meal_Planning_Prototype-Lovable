@@ -10,7 +10,7 @@ interface Meal {
   name: string;
   cuisine: string;
   rating: number;
-  prepTime: number;
+  effortLevel: 'low' | 'medium' | 'high';
   hasLeftovers: boolean;
   isNonPerishable: boolean;
 }
@@ -22,7 +22,7 @@ const WeeklyPlanner = () => {
       name: "Creamy Chicken Alfredo",
       cuisine: "Italian",
       rating: 4.5,
-      prepTime: 30,
+      effortLevel: 'medium',
       hasLeftovers: true,
       isNonPerishable: false,
     },
@@ -31,7 +31,7 @@ const WeeklyPlanner = () => {
       name: "Beef Taco Tuesday",
       cuisine: "Mexican",
       rating: 4.8,
-      prepTime: 25,
+      effortLevel: 'medium',
       hasLeftovers: true,
       isNonPerishable: false,
     },
@@ -41,7 +41,7 @@ const WeeklyPlanner = () => {
       name: "Asian Fried Rice",
       cuisine: "Asian",
       rating: 4.2,
-      prepTime: 20,
+      effortLevel: 'low',
       hasLeftovers: false,
       isNonPerishable: true,
     },

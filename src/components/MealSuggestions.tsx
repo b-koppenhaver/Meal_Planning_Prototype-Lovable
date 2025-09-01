@@ -9,7 +9,7 @@ interface Meal {
   name: string;
   cuisine: string;
   rating: number;
-  prepTime: number;
+  effortLevel: 'low' | 'medium' | 'high';
   hasLeftovers: boolean;
   isNonPerishable: boolean;
 }
@@ -21,7 +21,7 @@ const MealSuggestions = () => {
       name: "Mediterranean Quinoa Bowl",
       cuisine: "Mediterranean",
       rating: 4.3,
-      prepTime: 25,
+      effortLevel: 'medium',
       hasLeftovers: true,
       isNonPerishable: false,
     },
@@ -30,7 +30,7 @@ const MealSuggestions = () => {
       name: "Classic Spaghetti Bolognese",
       cuisine: "Italian",
       rating: 4.7,
-      prepTime: 45,
+      effortLevel: 'high',
       hasLeftovers: true,
       isNonPerishable: false,
     },
@@ -39,7 +39,7 @@ const MealSuggestions = () => {
       name: "Chicken & Rice Casserole",
       cuisine: "American",
       rating: 4.1,
-      prepTime: 20,
+      effortLevel: 'low',
       hasLeftovers: false,
       isNonPerishable: true,
     },
@@ -48,7 +48,7 @@ const MealSuggestions = () => {
       name: "Thai Green Curry",
       cuisine: "Asian",
       rating: 4.6,
-      prepTime: 35,
+      effortLevel: 'medium',
       hasLeftovers: true,
       isNonPerishable: false,
     },

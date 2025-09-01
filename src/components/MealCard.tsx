@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Star, Clock, Users, Package } from "lucide-react";
+import { Star, Zap, Users, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Meal {
@@ -9,7 +9,7 @@ interface Meal {
   name: string;
   cuisine: string;
   rating: number;
-  prepTime: number;
+  effortLevel: 'low' | 'medium' | 'high';
   hasLeftovers: boolean;
   isNonPerishable: boolean;
 }
@@ -49,6 +49,15 @@ const MealCard = ({ meal, size = "full", onSelect, onRate }: MealCardProps) => {
     ));
   };
 
+  const getEffortColor = (level: string) => {
+    const colors = {
+      low: "text-success",
+      medium: "text-warning", 
+      high: "text-destructive"
+    };
+    return colors[level as keyof typeof colors] || "text-muted-foreground";
+  };
+
   if (size === "compact") {
     return (
       <Card className="bg-card hover:shadow-medium transition-all duration-300 cursor-pointer" onClick={() => onSelect?.(meal)}>
@@ -64,9 +73,9 @@ const MealCard = ({ meal, size = "full", onSelect, onRate }: MealCardProps) => {
               </div>
             </div>
             <div className="flex items-center space-x-3 text-xs text-muted-foreground">
-              <div className="flex items-center space-x-1">
-                <Clock className="h-3 w-3" />
-                <span>{meal.prepTime}m</span>
+              <div className={cn("flex items-center space-x-1", getEffortColor(meal.effortLevel))}>
+                <Zap className="h-3 w-3" />
+                <span className="capitalize">{meal.effortLevel}</span>
               </div>
               {meal.hasLeftovers && (
                 <div className="flex items-center space-x-1">
@@ -105,9 +114,9 @@ const MealCard = ({ meal, size = "full", onSelect, onRate }: MealCardProps) => {
           </div>
           
           <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4" />
-              <span>{meal.prepTime} minutes</span>
+            <div className={cn("flex items-center space-x-2", getEffortColor(meal.effortLevel))}>
+              <Zap className="h-4 w-4" />
+              <span className="capitalize">{meal.effortLevel} effort</span>
             </div>
             {meal.hasLeftovers && (
               <div className="flex items-center space-x-2">
