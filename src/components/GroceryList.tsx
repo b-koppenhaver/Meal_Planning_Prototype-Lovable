@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { ShoppingCart, Store, Plus, Share } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ShoppingCart, Store, Plus, Share, Settings, Trash2 } from "lucide-react";
 
 interface GroceryItem {
   id: string;
@@ -17,6 +19,12 @@ interface GroceryItem {
 }
 
 const GroceryList = () => {
+  const [stores, setStores] = useState<string[]>([
+    "Whole Foods",
+    "Costco", 
+    "Target",
+    "Walmart"
+  ]);
   const [groceryItems, setGroceryItems] = useState<GroceryItem[]>([
     {
       id: "1",
@@ -66,6 +74,9 @@ const GroceryList = () => {
   ]);
 
   const [newItem, setNewItem] = useState("");
+  const [newItemStore, setNewItemStore] = useState(stores[0] || "");
+  const [newStore, setNewStore] = useState("");
+  const [isManageStoresOpen, setIsManageStoresOpen] = useState(false);
 
   const toggleItem = (id: string) => {
     setGroceryItems(items =>
@@ -76,17 +87,37 @@ const GroceryList = () => {
   };
 
   const addItem = () => {
-    if (newItem.trim()) {
+    if (newItem.trim() && newItemStore) {
       const item: GroceryItem = {
         id: Date.now().toString(),
         name: newItem,
         quantity: "1",
-        store: "Target",
+        store: newItemStore,
         category: "Other",
         checked: false
       };
       setGroceryItems([...groceryItems, item]);
       setNewItem("");
+    }
+  };
+
+  const addStore = () => {
+    if (newStore.trim() && !stores.includes(newStore.trim())) {
+      setStores([...stores, newStore.trim()]);
+      setNewStore("");
+    }
+  };
+
+  const removeStore = (storeToRemove: string) => {
+    // Don't allow removing if items exist for this store
+    const hasItems = groceryItems.some(item => item.store === storeToRemove);
+    if (hasItems) {
+      alert("Cannot remove store that has items. Please reassign or remove items first.");
+      return;
+    }
+    setStores(stores.filter(store => store !== storeToRemove));
+    if (newItemStore === storeToRemove && stores.length > 1) {
+      setNewItemStore(stores.find(s => s !== storeToRemove) || stores[0]);
     }
   };
 
@@ -97,13 +128,16 @@ const GroceryList = () => {
   }, {} as Record<string, GroceryItem[]>);
 
   const getStoreColor = (store: string) => {
-    const colors = {
-      "Whole Foods": "bg-green-100 text-green-700 border-green-200",
-      "Costco": "bg-blue-100 text-blue-700 border-blue-200",
-      "Target": "bg-red-100 text-red-700 border-red-200",
-      "Walmart": "bg-yellow-100 text-yellow-700 border-yellow-200",
-    };
-    return colors[store as keyof typeof colors] || "bg-muted text-muted-foreground";
+    const colors = [
+      "bg-green-100 text-green-700 border-green-200",
+      "bg-blue-100 text-blue-700 border-blue-200", 
+      "bg-red-100 text-red-700 border-red-200",
+      "bg-yellow-100 text-yellow-700 border-yellow-200",
+      "bg-purple-100 text-purple-700 border-purple-200",
+      "bg-orange-100 text-orange-700 border-orange-200",
+    ];
+    const storeIndex = stores.indexOf(store);
+    return storeIndex >= 0 ? colors[storeIndex % colors.length] : "bg-muted text-muted-foreground";
   };
 
   const completedItems = groceryItems.filter(item => item.checked).length;
@@ -123,6 +157,61 @@ const GroceryList = () => {
             <ShoppingCart className="h-3 w-3 mr-1" />
             Auto-generated
           </Badge>
+          <Dialog open={isManageStoresOpen} onOpenChange={setIsManageStoresOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Settings className="h-4 w-4 mr-2" />
+                Manage Stores
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Manage Grocery Stores</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Input
+                    placeholder="Add new store..."
+                    value={newStore}
+                    onChange={(e) => setNewStore(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && addStore()}
+                    className="flex-1"
+                  />
+                  <Button onClick={addStore}>
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium">Current Stores:</h4>
+                  {stores.map((store) => {
+                    const hasItems = groceryItems.some(item => item.store === store);
+                    return (
+                      <div key={store} className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                        <span className="flex items-center space-x-2">
+                          <Store className="h-4 w-4" />
+                          <span>{store}</span>
+                          {hasItems && (
+                            <Badge variant="secondary" className="text-xs">
+                              Has items
+                            </Badge>
+                          )}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeStore(store)}
+                          disabled={hasItems}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
           <Button variant="outline" size="sm">
             <Share className="h-4 w-4 mr-2" />
             Share List
@@ -138,7 +227,19 @@ const GroceryList = () => {
           onKeyPress={(e) => e.key === "Enter" && addItem()}
           className="flex-1"
         />
-        <Button onClick={addItem}>
+        <Select value={newItemStore} onValueChange={setNewItemStore}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="Store" />
+          </SelectTrigger>
+          <SelectContent>
+            {stores.map((store) => (
+              <SelectItem key={store} value={store}>
+                {store}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button onClick={addItem} disabled={!newItem.trim() || !newItemStore}>
           <Plus className="h-4 w-4 mr-2" />
           Add Item
         </Button>
