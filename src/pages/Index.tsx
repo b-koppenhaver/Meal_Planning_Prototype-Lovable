@@ -32,11 +32,18 @@ const Index = () => {
                 Plan weekly menus, generate smart grocery lists, and never run out of meal ideas again.
               </p>
               <div className="flex items-center space-x-4">
-                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+                <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => setActiveTab("planner")}>
                   <ChefHat className="h-5 w-5 mr-2" />
                   Start Planning
                 </Button>
-                <Button variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                  onClick={() => {
+                    document.querySelector('main')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
                   View Demo
                 </Button>
               </div>
