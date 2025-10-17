@@ -77,9 +77,9 @@ const WeeklyPlanner = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {days.map(({ key, label }) => (
-          <Card key={key} className="bg-gradient-card shadow-soft border-border/50">
+          <Card key={key} className="bg-gradient-card shadow-soft border-border/50 w-full md:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)]">
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-semibold text-foreground">{label}</CardTitle>
             </CardHeader>
