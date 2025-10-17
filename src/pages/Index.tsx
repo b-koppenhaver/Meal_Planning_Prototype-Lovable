@@ -65,7 +65,7 @@ const Index = () => {
             </TabsList>
           </div>
 
-          <TabsContent value="planner" className="space-y-8">
+          <TabsContent value="planner" className="space-y-4">
             <WeeklyPlanner />
           </TabsContent>
 
@@ -80,7 +80,7 @@ const Index = () => {
       </main>
 
       {/* Quick Stats */}
-      <section className="bg-secondary/30 py-12 mt-12">
+      <section className="bg-secondary/30 py-12 mt-6">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <Card className="bg-card shadow-soft">
