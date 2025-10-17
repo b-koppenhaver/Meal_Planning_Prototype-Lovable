@@ -24,13 +24,7 @@ const Index = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/60" />
           <div className="container mx-auto px-4 h-full flex items-center relative">
-            <div className="max-w-2xl text-primary-foreground">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Smart Family Meal Planning Made Simple
-              </h1>
-              <p className="text-lg md:text-xl mb-6 text-primary-foreground/90">
-                Plan weekly menus, generate smart grocery lists, and never run out of meal ideas again.
-              </p>
+          <div className="max-w-2xl text-primary-foreground">
               <div className="flex items-center space-x-4">
                 <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => setActiveTab("planner")}>
                   <ChefHat className="h-5 w-5 mr-2" />
