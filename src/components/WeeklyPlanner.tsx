@@ -65,7 +65,6 @@ const WeeklyPlanner = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-foreground">This Week's Menu</h2>
-          <p className="text-muted-foreground mt-1">Plan your family's meals for the week</p>
         </div>
         <div className="flex items-center space-x-2">
           <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
