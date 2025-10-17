@@ -78,18 +78,18 @@ const WeeklyPlanner = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {days.map(({ key, label }) => (
           <Card key={key} className="bg-gradient-card shadow-soft border-border/50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg font-semibold text-foreground">{label}</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-semibold text-foreground">{label}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2">
               {weekMeals[key] ? (
                 <MealCard meal={weekMeals[key]!} size="compact" />
               ) : (
-                <div className="h-32 border-2 border-dashed border-border rounded-lg flex items-center justify-center">
-                  <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+                <div className="h-24 border-2 border-dashed border-border rounded-lg flex items-center justify-center">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                     <Plus className="h-4 w-4 mr-2" />
                     Add Meal
                   </Button>
